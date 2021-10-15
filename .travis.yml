@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.6"
+script:
+  - coverage run practicaADN3.py
+
+install:
+  - pip install -r requirements.txt
+  - pip install parameterized
+
+after_success:
+  - coveralls
