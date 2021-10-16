@@ -4,6 +4,8 @@ python:
 script:
   - coverage run practicaADN3.py
 
+before_install:
+  - python -m pip install --upgrade pip
 install:
   - pip install -r requirements.txt
 
