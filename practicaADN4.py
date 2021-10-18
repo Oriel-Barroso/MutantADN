@@ -8,7 +8,6 @@ def check_automatizer(lista):
     v_d_d = round(len(lista) ** 0.5) + 1
     v_d_i = v_d_d - 2
     v_v = v_d_d - 1
-    v_h = 1
     c_dd_s = round((len(lista)**0.5)) * 4
     c_di_s = round((len(lista)**0.5)) * 3
     c_v_s = c_dd_s
@@ -17,24 +16,23 @@ def check_automatizer(lista):
     val_if_no_diags_and_verticals = (round(len(lista)**0.5) - 3) * round(len(lista)**0.5) #7
     val_if_last_value_row = round(len(lista) ** 0.5) - 1 #4
     total = 0 #1
-    for i in range(0, len(lista)): #n
+    for i in range(0, len(lista)-3): #n
         if c_d_d < val_if and i < val_if_no_diags_and_verticals and \
-           lista[i:c_dd_s:v_d_d] == A or lista[i:c_dd_s:v_d_d] == T or lista[i:c_dd_s:v_d_d] == C or \
-           lista[i:c_dd_s:v_d_d] == G:
-                total += 1
+           lista[i:c_dd_s:v_d_d] == A or lista[i:c_dd_s:v_d_d] == T or \
+           lista[i:c_dd_s:v_d_d] == C or lista[i:c_dd_s:v_d_d] == G:
+            total += 1
         
         if c_d_i >= 3 and i < val_if_no_diags_and_verticals and \
-           lista[i:c_di_s:v_d_i] == A or lista[i:c_di_s:v_d_i] == T or lista[i:c_di_s:v_d_i] == C or \
-           lista[i:c_di_s:v_d_i] == G:
-                total += 1
-
-        if c_h < val_if and \
-           lista[i:c_h_s:v_h] == A or lista[i:c_h_s:v_h] == T or lista[i:c_h_s:v_h] == C or \
-           lista[i:c_h_s:v_h] == G:
+           lista[i:c_di_s:v_d_i] == A or lista[i:c_di_s:v_d_i] == T or \
+           lista[i:c_di_s:v_d_i] == C or lista[i:c_di_s:v_d_i] == G:
             total += 1
 
-        if i < val_if_no_diags_and_verticals and \
-           lista[i:c_v_s:v_v] == A or lista[i:c_v_s:v_v] == T or lista[i:c_v_s:v_v] == C or \
+        if c_h < val_if and lista[i:c_h_s:1] == A or lista[i:c_h_s:1] == T or \
+           lista[i:c_h_s:1] == C or lista[i:c_h_s:1] == G:
+            total += 1
+
+        if i < val_if_no_diags_and_verticals and lista[i:c_v_s:v_v] == A or \
+           lista[i:c_v_s:v_v] == T or lista[i:c_v_s:v_v] == C or \
            lista[i:c_v_s:v_v] == G:
             total += 1
 
