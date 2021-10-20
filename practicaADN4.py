@@ -11,24 +11,27 @@ def check_automatizer(lista):
     c_di_s = round((len(lista)**0.5)) * 3
     c_v_s = c_dd_s
     c_h_s = 4
-    val_if = round((len(lista)**0.5)) - 3 #4
-    val_if_no_diags_and_verticals = (round(len(lista)**0.5) - 3) * round(len(lista)**0.5) #7
+    val_diag_hor = round((len(lista)**0.5)) - 3 #4
+    no_check_diags_and_verticals = (round(len(lista)**0.5) - 3) * round(len(lista)**0.5) #7
     val_if_last_value_row = round(len(lista) ** 0.5) - 1 #4
     total = 0 #1
     for i in range(0, len(lista)-3): #n
-        if c_d_d < val_if and i < val_if_no_diags_and_verticals and \
+        if c_d_d < val_diag_hor and i < no_check_diags_and_verticals and \
            lista[i:c_dd_s:v_d_d] == lista[i]*4:
+            print(lista[i:c_dd_s:v_d_d])
             total += 1
         
-        if c_d_i >= 3 and i < val_if_no_diags_and_verticals and \
+        if c_d_i >= 3 and i < no_check_diags_and_verticals and \
            lista[i:c_di_s:v_d_i] == lista[i]*4:
+            print(lista[i:c_di_s:v_d_i])
             total += 1
 
-        if c_h < val_if and lista[i:c_h_s:1] == lista[i]*4:
+        if c_h < val_diag_hor and lista[i:c_h_s:1] == lista[i]*4:
             print(lista[i:c_h_s:1])
             total += 1
 
-        if i < val_if_no_diags_and_verticals and lista[i:c_v_s:v_v] == lista[i]*4:
+        if i < no_check_diags_and_verticals and lista[i:c_v_s:v_v] == lista[i]*4:
+            print(lista[i:c_v_s:v_v])
             total += 1
 
         if c_h == val_if_last_value_row and c_d_d == val_if_last_value_row \
@@ -49,12 +52,13 @@ def check_automatizer(lista):
 
 
 def main():
-    letras = ['AAAA',
+    
+    letras = [
+              'AAAA',
               'TTTT',
-              'JGSH',
-              'NBSC'
+              'GCTG'
+              'KLKL'
              ]
-             
     lista = "".join(letras)
     print(len(lista))
     if len(lista) < 16:
