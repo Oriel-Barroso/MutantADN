@@ -1,66 +1,165 @@
 from time import time
-import random
 
-def check_automatizer(lista):
-    c_d_d, c_d_i, c_h = 0, 0, 0
-    v_d_d = round(len(lista) ** 0.5) + 1
-    v_d_i = v_d_d - 2
-    v_v = v_d_d - 1
-    c_dd_s = round((len(lista)**0.5)) * 4
-    c_di_s = round((len(lista)**0.5)) * 3
-    c_v_s = c_dd_s
-    c_h_s = 4
-    val_diag_hor = round((len(lista)**0.5)) - 3 #4
-    no_check_diags_and_verticals = (round(len(lista)**0.5) - 3) * round(len(lista)**0.5) #7
-    val_if_last_value_row = round(len(lista) ** 0.5) - 1 #4
-    total = 0 #1 i < no_check_diags_and_verticals
-    for i in range(0, len(lista)-3): #n
-        if i < no_check_diags_and_verticals and c_d_d < val_diag_hor and \
-           lista[i:c_dd_s:v_d_d] == lista[i]*4:
-            print(lista[i:c_dd_s:v_d_d])
-            total += 1
+
+class Mutant:
+    def __init__(self, adn = None, saltoDiagonalDerecha = 0, saltoDiagonalIzquierda = 0, saltoVertical = 0, saltoHorizontal = 0, 
+                stopDiagonalDerecha = 0, stopDiagonalIzquierda = 0, stopVertical = 0, stopHorizontal = 0) -> None:
+        self.adn = adn
+        self.saltoDiagonalDerecha = saltoDiagonalDerecha
+        self.saltoDiagonalIzquierda = saltoDiagonalIzquierda
+        self.saltoVertical = saltoVertical
+        self.saltoHorizontal = 1
+        self.stopDiagonalDerecha =  stopDiagonalDerecha
+        self.stopDiagonalIzquierda = stopDiagonalIzquierda
+        self.stopVertical = stopVertical
+        self.stopHorizontal = 4
+
+    @property
+    def adn (self):
+        return self._adn
+    
+    @adn.setter
+    def adn(self, value):
+        self._adn = value
+    
+    @property
+    def saltoDiagonalDerecha(self):
+        return self._saltoDiagonalDerecha
+    
+    @saltoDiagonalDerecha.setter
+    def saltoDiagonalDerecha(self, value):
+        self._saltoDiagonalDerecha = value
+    
+    @property
+    def saltoDiagonalIzquierda(self):
+        return self._saltoDiagonalIzquierda
         
-        if i < no_check_diags_and_verticals and c_d_i >= 3 and \
-           lista[i:c_di_s:v_d_i] == lista[i]*4:
-            print(lista[i:c_di_s:v_d_i])
-            total += 1
+    @saltoDiagonalIzquierda.setter
+    def saltoDiagonalIzquierda(self, value):
+        self._saltoDiagonalIzquierda = value
 
-        if c_h < val_diag_hor and lista[i:c_h_s:1] == lista[i]*4:
-            print(lista[i:c_h_s:1])
-            total += 1
+    @property
+    def saltoVertical(self):
+        return self._saltoVertical
 
-        if i < no_check_diags_and_verticals and lista[i:c_v_s:v_v] == lista[i]*4:
-            print(lista[i:c_v_s:v_v])
-            total += 1
+    @saltoVertical.setter
+    def saltoVertical(self, value):
+        self._saltoVertical = value
 
-        if total > 1:
-                    return (True, total, i)
+    @property
+    def saltoHorizontal(self):
+        return self._saltoHorizontal
 
-        if c_h == val_if_last_value_row and c_d_d == val_if_last_value_row \
-           and c_d_i == val_if_last_value_row:
-            c_h = -1 #1
-            c_d_d = -1
-            c_d_i = -1
+    @saltoHorizontal.setter
+    def saltoHorizontal(self, value):
+        self._saltoHorizontal = value
+
+    @property
+    def stopDiagonalDerecha(self):
+        return self._stopDiagonalDerecha
         
-        c_dd_s += 1
-        c_di_s += 1
-        c_h_s +=  1
-        c_v_s +=  1
-        c_d_d +=  1
-        c_d_i +=  1
-        c_h   +=  1
-    return (False, total)
+    @stopDiagonalDerecha.setter
+    def stopDiagonalDerecha(self, value):
+        self._stopDiagonalDerecha = value
+
+    @property
+    def stopDiagonalIzquierda(self):
+        return self._stopDiagonalIzquierda
+
+    @stopDiagonalIzquierda.setter
+    def stopDiagonalIzquierda(self, value):
+        self._stopDiagonalIzquierda = value
+    
+    @property
+    def stopVertical(self):
+        return self._stopVertical
+    
+    @stopVertical.setter
+    def stopVertical(self, value):
+        self._stopVertical = value
+
+    @property
+    def stopHorizontal(self):
+        return self._stopHorizontal
+
+    @stopHorizontal.setter
+    def stopHorizontal(self, value):
+        self._stopHorizontal = value
+
+
+    def checkADN(self, adn):
+        contadorDiagonalDerecha, contadorDiagonalIzquierda, contadorHorizontal = 0, 0, 0
+        cantidadFilasColumnas = round(len(adn) ** 0.5)
+        punteroAntepenultimoValorPorFila = cantidadFilasColumnas - 3 
+        punteroAntepenultimaFila = (cantidadFilasColumnas - 3) * cantidadFilasColumnas
+        punteroUltimaPosicionEnFila = cantidadFilasColumnas - 1
+        total = 0
+        for i in range(0, len(self.adn)-3):
+            if i < punteroAntepenultimaFila and contadorDiagonalDerecha < punteroAntepenultimoValorPorFila and \
+            self.adn[i:self.stopDiagonalDerecha:self.saltoDiagonalDerecha] == self.adn[i]*4:
+                print(self.adn[i:self.stopDiagonalDerecha:self.saltoDiagonalDerecha], 'A')
+                total += 1
+                print('A', i, 'total ', total)
+
+            
+            if i < punteroAntepenultimaFila and contadorDiagonalIzquierda >= 3 and \
+            self.adn[i:self.stopDiagonalIzquierda:self.saltoDiagonalIzquierda] == self.adn[i]*4:
+                print(self.adn[i:self.stopDiagonalIzquierda:self.saltoDiagonalIzquierda], 'B')
+                total += 1
+                print('B', i, 'total ', total)
+
+
+            if contadorHorizontal < punteroAntepenultimoValorPorFila and self.adn[i:self.stopHorizontal:self.saltoHorizontal] == self.adn[i]*4:
+                print(self.adn[i:self.stopHorizontal:self.saltoHorizontal], 'C')
+                total += 1
+                print('C', i, 'total ', total)
+
+
+            if i < punteroAntepenultimaFila and self.adn[i:self.stopVertical:self.saltoVertical] == self.adn[i]*4:
+                print(self.adn[i:self.stopVertical:self.saltoVertical], 'D')
+                total += 1
+                print('D', i, 'total ', total)
+
+
+            if total > 1:
+                return (True, total, i)
+
+            if contadorHorizontal == punteroUltimaPosicionEnFila and contadorDiagonalDerecha == punteroUltimaPosicionEnFila \
+            and contadorDiagonalIzquierda == punteroUltimaPosicionEnFila:
+                contadorHorizontal = -1 #1
+                contadorDiagonalDerecha = -1
+                contadorDiagonalIzquierda = -1
+            
+            self.stopDiagonalDerecha += 1
+            self.stopDiagonalIzquierda += 1
+            self.stopHorizontal +=  1
+            self.stopVertical +=  1
+            contadorDiagonalDerecha +=  1
+            contadorDiagonalIzquierda +=  1
+            contadorHorizontal   +=  1
+        return (False, total)
 
 
 def main():
-    lista = ['AAAA', 'TTTT', 'GCAC', 'TACG']
-    lista = ''.join(lista)
-    print(len(lista))
-    if len(lista) < 16:
+    listaADN = ['AAAAA', 'AAAAA', 'GCCAC', 'TAECA', 'TAECA']
+    mutant = Mutant()
+    mutantAdn = ''.join(listaADN)
+    mutant.adn = mutantAdn
+    cantidadFilasColumnas = round(len(mutant.adn) ** 0.5)
+    mutant.saltoDiagonalDerecha = cantidadFilasColumnas + 1
+    mutant.saltoDiagonalIzquierda = mutant.saltoDiagonalDerecha - 2
+    mutant.saltoVertical = mutant.saltoDiagonalDerecha - 1
+    mutant.saltoHorizontal = 1
+    mutant.stopDiagonalDerecha = cantidadFilasColumnas * 4 
+    mutant.stopDiagonalIzquierda = cantidadFilasColumnas * 3
+    mutant.stopVertical = mutant.stopDiagonalDerecha
+    mutant.stopHorizontal = 4
+    print(len(listaADN))
+    if len(mutantAdn) < 16:
         print('El largo de la lista debe ser mayor a 16')
     else:
         start_time = time()
-        f = check_automatizer(lista)
+        f = mutant.checkADN(mutant.adn)
         elapsed_time = time() - start_time
         print(f'En main {f} : ', elapsed_time)
 
